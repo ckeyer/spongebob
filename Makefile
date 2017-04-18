@@ -6,7 +6,7 @@ VERSION := $(shell cat VERSION.txt)
 GIT_COMMIT := $(shell git rev-parse --short HEAD)
 GIT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 
-DEV_IMAGE := ckeyer/dev
+DEV_IMAGE := ckeyer/dev:go
 DEV_UI_IMAGE := ckeyer/dev:node
 IMAGE_NAME := $(if $(REGISTRY_URL), $(REGISTRY_URL)/chuanjian/$(APP):$(GIT_BRANCH), chuanjian/$(APP):$(GIT_BRANCH))
 
@@ -30,6 +30,15 @@ build:
 	 -v $(PWD):/opt/gopath/src/$(PKG) \
 	 -w /opt/gopath/src/$(PKG) \
 	 $(DEV_IMAGE) make local
+
+run:
+	docker run --rm \
+	 --name $(APP)-dev-running \
+	 -e CGO_ENABLED=0 \
+	 -p 8080:8080 \
+	 -v $(PWD):/opt/gopath/src/$(PKG) \
+	 -w /opt/gopath/src/$(PKG) \
+	 $(DEV_IMAGE) go run ./cmd/spond/main.go
 
 image: build
 	docker build -t $(IMAGE_NAME) .

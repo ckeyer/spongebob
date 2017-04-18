@@ -9,10 +9,70 @@
 			"revisionTime": "2017-03-17T14:32:14Z"
 		},
 		{
+			"checksumSHA1": "XXDGXJNW5JBwEwHfZ+hh6XxpCiw=",
+			"path": "github.com/gin-gonic/gin",
+			"revision": "957f6205c83edda01be3a6dd74cdc1859b660ba0",
+			"revisionTime": "2017-04-17T08:00:48Z"
+		},
+		{
+			"checksumSHA1": "wEYVkapMAF7S2iVWlWzLHu598dE=",
+			"path": "github.com/gin-gonic/gin/binding",
+			"revision": "957f6205c83edda01be3a6dd74cdc1859b660ba0",
+			"revisionTime": "2017-04-17T08:00:48Z"
+		},
+		{
+			"checksumSHA1": "L0jAVQ9YZsoU1RpJDcKFdMEnLUs=",
+			"path": "github.com/gin-gonic/gin/render",
+			"revision": "957f6205c83edda01be3a6dd74cdc1859b660ba0",
+			"revisionTime": "2017-04-17T08:00:48Z"
+		},
+		{
+			"checksumSHA1": "kBeNcaKk56FguvPSUCEaH6AxpRc=",
+			"path": "github.com/golang/protobuf/proto",
+			"revision": "8ee79997227bf9b34611aee7946ae64735e6fd93",
+			"revisionTime": "2016-11-17T03:31:26Z"
+		},
+		{
+			"checksumSHA1": "U6lX43KDDlNOn+Z0Yyww+ZzHfFo=",
+			"path": "github.com/mattn/go-isatty",
+			"revision": "fc9e8d8ef48496124e79ae0df75490096eccf6fe",
+			"revisionTime": "2017-03-22T23:44:13Z"
+		},
+		{
+			"checksumSHA1": "MxLnUmfrP+r5HfCZM29+WPKebn8=",
+			"path": "github.com/ugorji/go/codec",
+			"revision": "708a42d246822952f38190a8d8c4e6b16a0e600c",
+			"revisionTime": "2017-03-12T11:21:14Z"
+		},
+		{
+			"checksumSHA1": "pyAPYrymvmZl0M/Mr4yfjOQjA8I=",
+			"path": "gopkg.in/gin-contrib/sse.v0",
+			"revision": "22d885f9ecc78bf4ee5d72b937e4bbcdc58e8cae",
+			"revisionTime": "2017-01-09T09:34:21Z"
+		},
+		{
+			"checksumSHA1": "hT+7DPyl8tQ96kUXW3Sr5o0Pcj0=",
+			"path": "gopkg.in/gin-gonic/gin.v1",
+			"revision": "e2212d40c62a98b388a5eb48ecbdcf88534688ba",
+			"revisionTime": "2016-12-04T22:13:08Z"
+		},
+		{
+			"checksumSHA1": "39V1idWER42Lmcmg2Uy40wMzOlo=",
+			"path": "gopkg.in/go-playground/validator.v8",
+			"revision": "5f57d2222ad794d0dffb07e664ea05e2ee07d60c",
+			"revisionTime": "2016-07-18T13:41:25Z"
+		},
+		{
 			"checksumSHA1": "1Rx4tdcCywDRfdX4Tzn/7riP6Go=",
 			"path": "gopkg.in/urfave/cli.v2",
 			"revision": "04b2f4ff79cf1fd71e138bafc67df8bbdb5b81c2",
 			"revisionTime": "2017-02-15T05:18:00Z"
+		},
+		{
+			"checksumSHA1": "0KwOlQV1dNUh9X8t+5s7nX5bqfk=",
+			"path": "gopkg.in/yaml.v2",
+			"revision": "a3f3340b5840cee44f372bddb5880fcbc419b46a",
+			"revisionTime": "2017-02-08T14:18:51Z"
 		}
 	],
 	"rootPath": "github.com/ckeyer/spongebob"
