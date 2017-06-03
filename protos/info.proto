@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package protos;
+
+message NodeInfo {
+	string Hostname = 1;
+	repeated string Ips = 2;
+	int64 MemoryUsed = 3;
+	int64 Memory = 4;
+	float CpuUsed = 5;
+	int64 NumCpus = 6;
+	int64 NumPhyCpus = 7;
+	float LoadAvg = 8;
+	string Uptime = 9;
+	int64 UnixTime = 10;
+}
+
