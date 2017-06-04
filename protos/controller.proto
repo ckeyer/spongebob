@@ -2,6 +2,24 @@ syntax = "proto3";
 
 package protos;
 
+service Controller {
+  rpc Join (Node) returns (Task) {}
+
+  rpc ReportStatus (stream NodeStatus) returns (stream Task) {}
+}
+
+message Node {
+  NodeInfo info = 1;
+}
+
+message Task {
+  string name = 1;
+}
+
+message NodeStatus {
+  string name = 1;
+}
+
 message NodeInfo {
 	string Hostname = 1;
 	repeated string Ips = 2;
@@ -14,4 +32,3 @@ message NodeInfo {
 	string Uptime = 9;
 	int64 UnixTime = 10;
 }
-

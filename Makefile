@@ -23,6 +23,9 @@ local:
 	go build -a -ldflags="$(LD_FLAGS)" -o bundles/sponctl ./cmd/sponctl
 	$(HASH) bundles/sponctl
 
+proto:
+	protoc --go_out=plugins=grpc:. protos/*.proto
+
 build:
 	docker run --rm \
 	 --name $(APP)-building \
@@ -35,7 +38,7 @@ run:
 	docker run --rm \
 	 --name $(APP)-dev-running \
 	 -e CGO_ENABLED=0 \
-	 -p 8080:8080 \
+	 -p 8089:8080 \
 	 -v $(PWD):/opt/gopath/src/$(PKG) \
 	 -w /opt/gopath/src/$(PKG) \
 	 $(DEV_IMAGE) go run ./cmd/spond/main.go
@@ -49,7 +52,7 @@ test:
 dev:
 	docker run --rm -it \
 	 --name $(APP)-dev \
-	 -p 8080:8080 \
+	 -p 8089:8080 \
 	 -v /var/run/docker.sock:/var/run/docker.sock \
 	 -v $(PWD):/opt/gopath/src/$(PKG) \
 	 -w /opt/gopath/src/$(PKG) \
