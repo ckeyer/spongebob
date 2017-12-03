@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package ckeyer.com.spongebob.protos;
+
+import "google/api/annotations.proto";
+
+option go_package = "protos";
+
+message NodeInfo {
+	
+}

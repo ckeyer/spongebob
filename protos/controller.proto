@@ -1,11 +1,25 @@
 syntax = "proto3";
 
-package protos;
+package ckeyer.com.spongebob.protos;
+
+import "google/api/annotations.proto";
+
+option go_package = "protos";
 
 service Controller {
-  rpc Join (Node) returns (Task) {}
+  rpc Join (Node) returns (Task) {
+  	option (google.api.http) = {
+  	  post: "/join"
+  	  body: "*"
+    };
+  }
 
-  rpc ReportStatus (stream NodeStatus) returns (stream Task) {}
+  rpc ReportStatus (stream NodeStatus) returns (stream Task) {
+	option (google.api.http) = {
+	  post: "/status"
+	  body: "*"
+    };
+  }
 }
 
 message Node {

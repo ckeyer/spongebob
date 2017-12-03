@@ -1,6 +1,7 @@
 PWD := $(shell pwd)
 APP := spongebob
 PKG := github.com/ckeyer/$(APP)
+GO := CGO_ENABLED=0 GOBIN=${PWD}/bundles go
 
 VERSION := $(shell cat VERSION.txt)
 GIT_COMMIT := $(shell git rev-parse --short HEAD)
@@ -17,14 +18,16 @@ HASH := $(shell which sha1sum || which shasum)
 init:
 	echo $(IMAGE_NAME)
 
-local:
-	go build -a -ldflags="$(LD_FLAGS)" -o bundles/spond ./cmd/spond
-	$(HASH) bundles/spond
-	go build -a -ldflags="$(LD_FLAGS)" -o bundles/sponctl ./cmd/sponctl
-	$(HASH) bundles/sponctl
+local: generate
+	$(GO) install -a -ldflags="$(LD_FLAGS)" ./cmd/spongebob
 
-proto:
-	protoc --go_out=plugins=grpc:. protos/*.proto
+generate:
+	protoc -I. \
+	 -I/usr/local/include \
+	 -I${GOPATH}/src \
+	 -I${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+	 --grpc-gateway_out=logtostderr=true:. \
+	 --go_out=plugins=grpc:. protos/*.proto
 
 build:
 	docker run --rm \
@@ -49,10 +52,19 @@ image: build
 test:
 	go test -ldflags="$(LD_FLAGS)" $$(go list ./... |grep -v "vendor")
 
-dev:
+dev: dev-server
+
+dev-server:
 	docker run --rm -it \
 	 --name $(APP)-dev \
 	 -p 8089:8080 \
+	 -v $(PWD):/opt/gopath/src/$(PKG) \
+	 -w /opt/gopath/src/$(PKG) \
+	 $(DEV_IMAGE) bash
+
+dev-client:
+	docker run --rm -it \
+	 --name $(APP)-dev-client \
 	 -v /var/run/docker.sock:/var/run/docker.sock \
 	 -v $(PWD):/opt/gopath/src/$(PKG) \
 	 -w /opt/gopath/src/$(PKG) \

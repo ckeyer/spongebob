@@ -1,7 +1,7 @@
 package agent
 
 import (
-	log "github.com/Sirupsen/logrus"
+	"github.com/ckeyer/spongebob/pkgs/log"
 	pb "github.com/ckeyer/spongebob/protos"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"

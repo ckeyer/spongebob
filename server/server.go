@@ -1,52 +1,28 @@
 package server
 
 import (
-	"io"
-	"net"
-
-	log "github.com/Sirupsen/logrus"
-	pb "github.com/ckeyer/spongebob/protos"
-	"golang.org/x/net/context"
-	"google.golang.org/grpc"
+	log "github.com/ckeyer/logrus"
+	"github.com/ckeyer/spongebob/server/api"
+	"github.com/ckeyer/spongebob/server/rpc"
 )
 
-type Server struct {
-	Name string
+func Run(rpcAddr, webAddr string) error {
+	go startHTTP(rpcAddr, webAddr)
+	return startRPC(rpcAddr, webAddr)
 }
 
-func (s *Server) Join(ctx context.Context, node *pb.Node) (*pb.Task, error) {
-	return nil, nil
+func startHTTP(rpcAddr, webAddr string) {
+	err := api.Serve(rpcAddr, webAddr)
+	if err != nil {
+		log.Fatalf("http listenning failed, %s", err)
+	}
 }
 
-func (s *Server) ReportStatus(stream pb.Controller_ReportStatusServer) error {
-	for {
-		ns, err := stream.Recv()
-		if err == io.EOF {
-			return nil
-		} else if err != nil {
-			return err
-		}
-		log.Debugf("receive node status %+v", ns)
-
-		task := &pb.Task{
-			Name: "test task",
-		}
-		stream.Send(task)
-
+func startRPC(rpcAddr, webAddr string) error {
+	err := rpc.Serve(rpcAddr)
+	if err != nil {
+		log.Fatalf("http listenning failed, %s", err)
+		return err
 	}
 	return nil
-}
-
-func Start(addr string) error {
-	lis, err := net.Listen("tcp", addr)
-	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
-	}
-
-	opts := []grpc.ServerOption{}
-
-	s := grpc.NewServer(opts...)
-	pb.RegisterControllerServer(s, &Server{})
-
-	return s.Serve(lis)
 }

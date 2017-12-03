@@ -1,109 +1,81 @@
 package main
 
 import (
+	log "github.com/ckeyer/logrus"
 	"github.com/ckeyer/spongebob/agent"
-	"os"
-
-	log "github.com/Sirupsen/logrus"
 	"github.com/ckeyer/spongebob/server"
-	"github.com/ckeyer/spongebob/server/api"
-	cli "gopkg.in/urfave/cli.v2"
+	"github.com/spf13/cobra"
 )
 
-func main() {
-	var (
-		debug bool
-	)
-	app := &cli.App{
-		Name:  "sponcli",
-		Usage: "",
-		Flags: []cli.Flag{
-			&cli.BoolFlag{
-				Name:        "debug",
-				Aliases:     []string{"D"},
-				EnvVars:     []string{"DEBUG"},
-				Value:       false,
-				Destination: &debug,
-			},
-		},
-		Commands: []*cli.Command{
-			ServeCommand(),
-			JoinCommand(),
-		},
-		Before: func(ctx *cli.Context) error {
-			log.SetFormatter(&log.JSONFormatter{})
+var (
+	debug   bool
+	rootCmd = &cobra.Command{
+		Use:   "sponcli",
+		Short: "",
+		PersistentPreRun: func(cmd *cobra.Command, args []string) {
 			if debug {
-				log.SetLevel(log.DebugLevel)
+				log.SetFormatter(&log.JSONFormatter{})
 			}
-
-			return nil
 		},
-		Action: func(ctx *cli.Context) error {
-			log.Debug("main Action.")
-
-			return nil
+		Run: func(cmd *cobra.Command, args []string) {
+			log.Info("...")
 		},
 	}
+)
 
-	app.Run(os.Args)
+func init() {
+	rootCmd.PersistentFlags().BoolVarP(&debug, "debug", "D", false, "log debug message.")
+
+	// rootCmd.Flags().StringVarP(p, name, shorthand, value, usage)
 }
 
-func ServeCommand() *cli.Command {
+// Main
+func main() {
+	rootCmd.Execute()
+}
+
+// children commands.
+func init() {
+	rootCmd.AddCommand(ServeCommand())
+	rootCmd.AddCommand(JoinCommand())
+}
+
+func ServeCommand() *cobra.Command {
 	var (
 		addr string
 		web  string
 	)
 
-	return &cli.Command{
-		Name:    "serve",
-		Aliases: []string{"s"},
-		Flags: []cli.Flag{
-			&cli.StringFlag{
-				Name:        "addr",
-				Aliases:     []string{"address"},
-				EnvVars:     []string{"ADDR", "ADDRESS"},
-				Value:       ":8091",
-				Destination: &addr,
-			},
-			&cli.StringFlag{
-				Name:        "web",
-				Aliases:     []string{"web_address"},
-				EnvVars:     []string{"WEB_ADDR"},
-				Value:       ":8090",
-				Destination: &web,
-			},
-		},
-		Action: func(ctx *cli.Context) error {
-			log.Infof("server listenning at: %s", addr)
-			log.Infof("web ui listenning at: %s", web)
+	cmd := &cobra.Command{
+		Use:   "serve",
+		Short: "s",
+		Run: func(cmd *cobra.Command, args []string) {
+			log.Infof("server listenning at %s", addr)
+			log.Infof("web ui listenning at %s", web)
 
-			if err := server.Start(addr); err != nil {
-				return err
+			if err := server.Run(addr, web); err != nil {
+				log.Fatalln(err)
 			}
-
-			return api.Serve(web)
 		},
 	}
+
+	cmd.Flags().StringVarP(&addr, "rpc-addr", "s", ":8091", "gRPC listenning address.")
+	cmd.Flags().StringVarP(&web, "web-addr", "w", ":8090", "web UI address.")
+	return cmd
 }
 
-func JoinCommand() *cli.Command {
+func JoinCommand() *cobra.Command {
 	var endpoint string
 
-	return &cli.Command{
-		Name:    "join",
-		Aliases: []string{"j"},
-		Flags: []cli.Flag{
-			&cli.StringFlag{
-				Name:        "e",
-				Aliases:     []string{"endpoint"},
-				EnvVars:     []string{"ENDPOINT"},
-				Value:       "localhost:8091",
-				Destination: &endpoint,
-			},
-		},
-		Action: func(ctx *cli.Context) error {
-			log.Debug("join ", endpoint)
-			return agent.Start(endpoint)
+	cmd := &cobra.Command{
+		Use:   "join",
+		Short: "j",
+		Run: func(cmd *cobra.Command, args []string) {
+			log.Info("join ", endpoint)
+			log.Fatalln(agent.Start(endpoint))
 		},
 	}
+
+	cmd.Flags().StringVarP(&endpoint, "endpoint", "s", "localhost:8091", "gRPC server endpoint.")
+	return cmd
 }
