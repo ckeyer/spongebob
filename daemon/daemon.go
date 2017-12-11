@@ -11,6 +11,7 @@ import (
 )
 
 type Daemon struct {
+	httpStatus string
 	chStopHTTP chan struct{}
 }
 
@@ -34,7 +35,7 @@ func Serve(addr string) (err error) {
 	}
 	s := grpc.NewServer()
 
-	pb.RegisterHostDaemonServer(s, srv)
+	pb.RegisterHostDaemonServer(s, NewDaemon())
 
 	return s.Serve(lis)
 }

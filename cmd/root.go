@@ -16,7 +16,7 @@ var (
 			}
 		},
 		Run: func(cmd *cobra.Command, args []string) {
-			log.Info("...")
+			cmd.Usage()
 		},
 	}
 )

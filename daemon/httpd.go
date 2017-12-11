@@ -6,14 +6,14 @@ import (
 	"golang.org/x/net/context"
 )
 
-func (d *Daemon) StartHTTP(ctx context.Context, in *pb.HTTPOption) (*pb.HTTPOption, error) {
-	d.chStopHTTP
-	select {
-	case <-chStopHTTP:
-	default:
+const (
+	statusRun = "running"
+)
 
+func (d *Daemon) StartHTTP(ctx context.Context, in *pb.HTTPOption) (*pb.HTTPOption, error) {
+	if d.httpStatus != statusRun {
+		httpsrv.Run("", d.chStopHTTP)
 	}
-	httpsrv.Run()
 	return nil, nil
 }
 

@@ -40,7 +40,7 @@ func Run(addr string, chStop <-chan struct{}) error {
 	mux.HandleFunc("/static64k", handleStatic64k)
 	mux.HandleFunc("/static2M", handleStatic2M)
 
-	mux.HandleFunc("/metrics", promhttp.Handler())
+	mux.Handle("/metrics", promhttp.Handler())
 
 	lis, err := net.Listen("unix", addr)
 	if err != nil {
