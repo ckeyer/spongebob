@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package ckeyer.com.spongebob.protos;
+
+import "google/api/annotations.proto";
+
+option go_package = "protos";
+
+service HostDaemon {
+  rpc StartHTTP (HTTPOption) returns (HTTPOption) {}
+  rpc StopHTTP (HTTPOption) returns (HTTPOption) {}
+}
+
+message HTTPOption {
+	int32 port = 1;
+}

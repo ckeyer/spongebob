@@ -6,12 +6,15 @@ Package protos is a generated protocol buffer package.
 
 It is generated from these files:
 	protos/controller.proto
+	protos/daemon.proto
+	protos/node_info.proto
 
 It has these top-level messages:
 	Node
 	Task
 	NodeStatus
 	NodeInfo
+	HTTPOption
 */
 package protos
 

@@ -11,7 +11,7 @@ DEV_IMAGE := ckeyer/dev:go
 DEV_UI_IMAGE := ckeyer/dev:node
 IMAGE_NAME := $(if $(REGISTRY_URL), $(REGISTRY_URL)/chuanjian/$(APP):$(GIT_BRANCH), chuanjian/$(APP):$(GIT_BRANCH))
 
-LD_FLAGS := -X $(PKG)/version.version=$(VERSION) -X $(PKG)/version.gitCommit=$(GIT_COMMIT) -w
+LD_FLAGS := -X $(PKG)/pkgs/version.version=$(VERSION) -X $(PKG)/pkgs/version.gitCommit=$(GIT_COMMIT) -w
 
 HASH := $(shell which sha1sum || which shasum)
 
@@ -19,7 +19,7 @@ init:
 	echo $(IMAGE_NAME)
 
 local: generate
-	$(GO) install -a -ldflags="$(LD_FLAGS)" ./cmd/spongebob
+	$(GO) install -a -ldflags="$(LD_FLAGS)" .
 
 generate:
 	protoc -I. \
@@ -44,13 +44,13 @@ run:
 	 -p 8089:8080 \
 	 -v $(PWD):/opt/gopath/src/$(PKG) \
 	 -w /opt/gopath/src/$(PKG) \
-	 $(DEV_IMAGE) go run ./cmd/spond/main.go
+	 $(DEV_IMAGE) ${GO} run ./main.go
 
 image: build
 	docker build -t $(IMAGE_NAME) .
 
 test:
-	go test -ldflags="$(LD_FLAGS)" $$(go list ./... |grep -v "vendor")
+	${GO} test -ldflags="$(LD_FLAGS)" $$(go list ./... |grep -v "vendor")
 
 dev: dev-server
 
