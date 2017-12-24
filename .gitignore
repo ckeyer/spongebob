@@ -6,10 +6,16 @@
 # Folders
 _obj
 _test
+bundles
+node_modules
+dist
+ui/node_modules
+ui/dist
 
 # Architecture specific extensions/prefixes
 *.[568vq]
 [568vq].out
+npm-debug.log
 
 *.cgo1.go
 *.cgo2.c
@@ -22,4 +28,3 @@ _testmain.go
 *.exe
 *.test
 *.prof
-bundles

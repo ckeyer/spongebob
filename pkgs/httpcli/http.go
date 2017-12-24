@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/ckeyer/attack/httpclient"
-
 	"github.com/ckeyer/logrus"
 )
 

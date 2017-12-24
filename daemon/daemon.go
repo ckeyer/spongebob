@@ -26,7 +26,7 @@ func Serve(addr string) (err error) {
 	if strings.HasPrefix(addr, "unix") {
 		lis, err = net.Listen("unix", strings.TrimPrefix(addr, "unix://"))
 	} else if strings.HasPrefix(addr, "tcp") {
-		lis, err = net.Listen("unix", strings.TrimPrefix(addr, "tcp://"))
+		lis, err = net.Listen("tcp", strings.TrimPrefix(addr, "tcp://"))
 	} else {
 		return fmt.Errorf("invalid listenning address, %s", addr)
 	}
