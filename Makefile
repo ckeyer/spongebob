@@ -2,6 +2,7 @@ PWD := $(shell pwd)
 APP := spongebob
 PKG := github.com/ckeyer/$(APP)
 GO := CGO_ENABLED=0 GOBIN=${PWD}/bundles go
+HASH := $(shell which sha1sum || which shasum)
 
 VERSION := $(shell cat VERSION.txt)
 GIT_COMMIT := $(shell git rev-parse --short HEAD)
@@ -9,11 +10,9 @@ GIT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 
 DEV_IMAGE := ckeyer/dev:go
 DEV_UI_IMAGE := ckeyer/dev:node
-IMAGE_NAME := $(if $(REGISTRY_URL), $(REGISTRY_URL)/chuanjian/$(APP):$(GIT_BRANCH), chuanjian/$(APP):$(GIT_BRANCH))
+IMAGE_NAME := ckeyer/$(APP):$(GIT_BRANCH)
 
 LD_FLAGS := -X $(PKG)/pkgs/version.version=$(VERSION) -X $(PKG)/pkgs/version.gitCommit=$(GIT_COMMIT) -w
-
-HASH := $(shell which sha1sum || which shasum)
 
 init:
 	echo $(IMAGE_NAME)
@@ -48,6 +47,9 @@ run:
 
 image: build
 	docker build -t $(IMAGE_NAME) .
+
+push:
+	docker push $(IMAGE_NAME)
 
 test:
 	${GO} test -ldflags="$(LD_FLAGS)" $$(go list ./... |grep -v "vendor")
