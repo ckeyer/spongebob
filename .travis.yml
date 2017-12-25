@@ -1,11 +1,15 @@
 sudo: required
 
-language: ruby
+language: go
+
+go:
+  - master
 
 services:
   - docker
 
 before_install:
+  - echo $TRAVIS_GO_VERSION
   - docker pull ckeyer/dev:go
   - docker pull ckeyer/dev:node
 
