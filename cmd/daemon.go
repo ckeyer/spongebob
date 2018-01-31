@@ -18,7 +18,7 @@ func DaemonCommond() *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "daemon",
-		Short: "daemon process",
+		Short: "daemon process for mamager all client's job.",
 		Run: func(cmd *cobra.Command, args []string) {
 			log.Info("daemon process", addr)
 			log.Fatalln(daemon.Serve(addr))

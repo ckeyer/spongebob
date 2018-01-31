@@ -8,7 +8,7 @@ VERSION := $(shell cat VERSION.txt)
 GIT_COMMIT := $(shell git rev-parse --short HEAD)
 GIT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 
-DEV_IMAGE := ckeyer/dev:go
+DEV_IMAGE := ckeyer/dev:k8s
 DEV_UI_IMAGE := ckeyer/dev:node
 IMAGE_NAME := ckeyer/$(APP):$(GIT_BRANCH)
 
@@ -21,12 +21,7 @@ local: generate
 	$(GO) install -a -ldflags="$(LD_FLAGS)" .
 
 generate:
-	protoc -I. \
-	 -I/usr/local/include \
-	 -I${GOPATH}/src \
-	 -I${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
-	 --grpc-gateway_out=logtostderr=true:. \
-	 --go_out=plugins=grpc:. protos/*.proto
+	$(GO) generate ./protos/
 
 build:
 	docker run --rm \

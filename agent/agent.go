@@ -7,24 +7,27 @@ import (
 	"google.golang.org/grpc"
 )
 
-type Agent struct {
-	Name string
+type AgentOption struct {
+	Name           string
+	ServerEndpoint string
+	HTTPAddr       string
+	GRPCAddr       string
 }
 
 type TaskManager struct {
 	cli pb.ControllerClient
 }
 
-func Start(endpoint string) error {
+func Start(opt AgentOption) error {
 	opts := []grpc.DialOption{
 		grpc.WithInsecure(),
 	}
-	conn, err := grpc.Dial(endpoint, opts...)
+	conn, err := grpc.Dial(opt.ServerEndpoint, opts...)
 	if err != nil {
 		return err
 	}
 	defer conn.Close()
-	log.Infof("connected to %s", endpoint)
+	log.Infof("connected to %s", opt.ServerEndpoint)
 
 	cli := pb.NewControllerClient(conn)
 

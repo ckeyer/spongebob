@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package ckeyer.com.spongebob.protos;
+
+import "google/api/annotations.proto";
+
+option go_package = "protos";
+
+message Node {
+  HostInfo info = 1;
+}
+
+message Task {
+  string name = 1;
+}
+
+message NodeStatus {
+  string name = 1;
+}
+
+message HostInfo {
+	string hostname = 1;
+	repeated string ips = 2;
+	int64 memory = 3;
+	int64 numCpus = 4;
+	int64 numPhyCpus = 5;
+	int64 unixTime = 6;
+}

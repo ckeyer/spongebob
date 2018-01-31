@@ -9,7 +9,7 @@ var (
 	debug   bool
 	rootCmd = &cobra.Command{
 		Use:   "sponcli",
-		Short: "",
+		Short: "[spongebob] A server pressure measurement tool",
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
 			if debug {
 				log.SetFormatter(&log.JSONFormatter{})

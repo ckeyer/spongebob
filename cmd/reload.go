@@ -5,7 +5,7 @@ import (
 )
 
 func init() {
-	rootCmd.AddCommand(ReloadCommand())
+	// rootCmd.AddCommand(ReloadCommand())
 }
 
 func ReloadCommand() *cobra.Command {

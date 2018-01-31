@@ -5,7 +5,7 @@ import (
 )
 
 func init() {
-	rootCmd.AddCommand(StatusCommand())
+	// rootCmd.AddCommand(StatusCommand())
 }
 
 func StatusCommand() *cobra.Command {
