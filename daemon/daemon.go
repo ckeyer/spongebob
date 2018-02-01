@@ -10,6 +10,13 @@ import (
 	"google.golang.org/grpc"
 )
 
+type DaemonOption struct {
+	Name     string
+	HTTPAddr string
+	GRPCAddr string
+	PromBin  string
+}
+
 type Daemon struct {
 	httpStatus string
 	chStopHTTP chan struct{}
@@ -19,16 +26,16 @@ func NewDaemon() *Daemon {
 	return &Daemon{}
 }
 
-func Serve(addr string) (err error) {
+func Serve(opt DaemonOption) (err error) {
 	var (
 		lis net.Listener
 	)
-	if strings.HasPrefix(addr, "unix") {
-		lis, err = net.Listen("unix", strings.TrimPrefix(addr, "unix://"))
-	} else if strings.HasPrefix(addr, "tcp") {
-		lis, err = net.Listen("tcp", strings.TrimPrefix(addr, "tcp://"))
+	if strings.HasPrefix(opt.GRPCAddr, "unix") {
+		lis, err = net.Listen("unix", strings.TrimPrefix(opt.GRPCAddr, "unix://"))
+	} else if strings.HasPrefix(opt.GRPCAddr, "tcp") {
+		lis, err = net.Listen("tcp", strings.TrimPrefix(opt.GRPCAddr, "tcp://"))
 	} else {
-		return fmt.Errorf("invalid listenning address, %s", addr)
+		return fmt.Errorf("invalid listenning address, %s", opt.GRPCAddr)
 	}
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)

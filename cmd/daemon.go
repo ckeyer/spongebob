@@ -12,20 +12,19 @@ func init() {
 
 func DaemonCommond() *cobra.Command {
 	var (
-		addr string
-		web  string
+		opt = daemon.DaemonOption{}
 	)
 
 	cmd := &cobra.Command{
 		Use:   "daemon",
 		Short: "daemon process for mamager all client's job.",
 		Run: func(cmd *cobra.Command, args []string) {
-			log.Info("daemon process", addr)
-			log.Fatalln(daemon.Serve(addr))
+			log.Infof("daemon process %+v", opt)
+			log.Fatalln(daemon.Serve(opt))
 		},
 	}
-
-	cmd.Flags().StringVarP(&addr, "listen", "l", "unix:///var/run/spongebob.sock", "host daemon listenning address.")
-	cmd.Flags().StringVarP(&web, "web-addr", "w", ":8090", "web UI address.")
+	cmd.Flags().StringVarP(&opt.GRPCAddr, "grpc-addr", "l", "unix:///var/run/spongebob.sock", "host daemon listenning address for manager all agents.")
+	cmd.Flags().StringVarP(&opt.HTTPAddr, "http-addr", "w", ":8090", "web UI address.")
+	cmd.Flags().StringVarP(&opt.PromBin, "prom-bin", "p", "", "Prometheus binary path.")
 	return cmd
 }
