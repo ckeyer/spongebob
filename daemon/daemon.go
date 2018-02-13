@@ -1,7 +1,6 @@
 package daemon
 
 import (
-	"fmt"
 	"net"
 	"strings"
 
@@ -32,10 +31,8 @@ func Serve(opt DaemonOption) (err error) {
 	)
 	if strings.HasPrefix(opt.GRPCAddr, "unix") {
 		lis, err = net.Listen("unix", strings.TrimPrefix(opt.GRPCAddr, "unix://"))
-	} else if strings.HasPrefix(opt.GRPCAddr, "tcp") {
-		lis, err = net.Listen("tcp", strings.TrimPrefix(opt.GRPCAddr, "tcp://"))
 	} else {
-		return fmt.Errorf("invalid listenning address, %s", opt.GRPCAddr)
+		lis, err = net.Listen("tcp", strings.TrimPrefix(opt.GRPCAddr, "tcp://"))
 	}
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)

@@ -3,19 +3,19 @@ syntax = "proto3";
 package ckeyer.com.spongebob.protos;
 
 import "google/api/annotations.proto";
-import "github.com/ckeyer/spongebob/protos/types.proto";
+import "github.com/ckeyer/api/types/host.proto";
 
 option go_package = "protos";
 
 service Controller {
-  rpc Join (Node) returns (Task) {
+  rpc Join (ckeyer.api.Node) returns (ckeyer.api.Task) {
   	option (google.api.http) = {
   	  post: "/join"
   	  body: "*"
     };
   }
 
-  rpc ReportStatus (stream NodeStatus) returns (stream Task) {
+  rpc ReportStatus (stream ckeyer.api.NodeStatus) returns (stream ckeyer.api.Task) {
 	option (google.api.http) = {
 	  post: "/status"
 	  body: "*"

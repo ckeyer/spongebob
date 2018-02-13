@@ -10,6 +10,7 @@ func init() {
 	rootCmd.AddCommand(DaemonCommond())
 }
 
+// DaemonCommond run a job manager daemon
 func DaemonCommond() *cobra.Command {
 	var (
 		opt = daemon.DaemonOption{}
@@ -26,5 +27,6 @@ func DaemonCommond() *cobra.Command {
 	cmd.Flags().StringVarP(&opt.GRPCAddr, "grpc-addr", "l", "unix:///var/run/spongebob.sock", "host daemon listenning address for manager all agents.")
 	cmd.Flags().StringVarP(&opt.HTTPAddr, "http-addr", "w", ":8090", "web UI address.")
 	cmd.Flags().StringVarP(&opt.PromBin, "prom-bin", "p", "", "Prometheus binary path.")
+
 	return cmd
 }

@@ -12,6 +12,7 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/ckeyer/api/types"
 	"github.com/golang/protobuf/proto"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/grpc-ecosystem/grpc-gateway/utilities"
@@ -29,7 +30,7 @@ var _ = runtime.String
 var _ = utilities.NewDoubleArray
 
 func request_Controller_Join_0(ctx context.Context, marshaler runtime.Marshaler, client ControllerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq Node
+	var protoReq types.Node
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil {
@@ -50,7 +51,7 @@ func request_Controller_ReportStatus_0(ctx context.Context, marshaler runtime.Ma
 	}
 	dec := marshaler.NewDecoder(req.Body)
 	handleSend := func() error {
-		var protoReq NodeStatus
+		var protoReq types.NodeStatus
 		err = dec.Decode(&protoReq)
 		if err == io.EOF {
 			return err
