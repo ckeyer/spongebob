@@ -9,8 +9,7 @@ RUN apk add --update wget && \
 	cp prometheus-2.0.0-beta.2.linux-amd64/prometheus /bin/prometheus && \
 	rm -rf /tmp/*
 
-COPY bundles/spond /bin/spond
-COPY bundles/sponctl /bin/sponctl
+COPY bundles/spongebob /bin/spongebob
 
 EXPOSE 8080
 
