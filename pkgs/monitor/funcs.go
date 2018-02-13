@@ -17,7 +17,6 @@ func BuildMappers() {
 	Mappers = []FuncsAndInterval{
 		FuncsAndInterval{
 			Fs: []func() []*model.MetricValue{
-				AgentMetrics,
 				CpuMetrics,
 				NetMetrics,
 				KernelMetrics,
@@ -39,7 +38,6 @@ func BuildMappers() {
 		},
 		FuncsAndInterval{
 			Fs: []func() []*model.MetricValue{
-				PortMetrics,
 				SocketStatSummaryMetrics,
 			},
 			Interval: interval,

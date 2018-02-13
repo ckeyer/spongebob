@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package ckeyer.com.spongebob.protos;
+
+//import "google/api/annotations.proto";
+import "github.com/ckeyer/api/status.proto";
+import "github.com/ckeyer/api/utils.proto";
+
+option go_package = "protos";
+
+service DaemonController {
+    rpc GetStatus (ckeyer.api.Empty) returns (ckeyer.api.ProcessStatus) {}
+    rpc Reload (ckeyer.api.Empty) returns (ckeyer.api.ProcessStatus) {}
+}

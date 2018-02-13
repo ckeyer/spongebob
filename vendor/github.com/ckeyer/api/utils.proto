@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package ckeyer.api;
+
+option go_package = "api";
+
+message Empty {}
+
+message String {
+	string value = 1;
+}

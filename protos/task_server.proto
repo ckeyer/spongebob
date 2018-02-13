@@ -3,7 +3,7 @@ syntax = "proto3";
 package ckeyer.com.spongebob.protos;
 
 import "google/api/annotations.proto";
-import "github.com/ckeyer/api/types/http_option.proto";
+import "github.com/ckeyer/api/http_option.proto";
 
 option go_package = "protos";
 

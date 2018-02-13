@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package ckeyer.api;
+
+option go_package = "api";
+
+message ProcessStatus {
+	string name = 1;
+	string version = 2;
+	int32 pid = 3;
+	int64 startAt = 4;
+	string status = 5;
+	string desc = 6;
+}
